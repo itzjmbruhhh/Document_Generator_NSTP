@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html land="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login Page</title>
+        <link rel="stylesheet" href="css/index.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            * { 
+                box-sizing: border-box; 
+                font-family: "Segoe UI", Arial, sans-serif;
+            }
+        
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-image: url('https://preview.redd.it/lipa-city-batangas-v0-i1oijky1enya1.jpg?auto=webp&s=6656c5b19f191d63b3e9f34d8fa620473611a6f2');
+                background-size: cover;
+                background-repeat: repeat;
+                background-size: auto 100%;
+            }
+
+            body::before { /* ETO BLUR EFFECT */
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: rgba(0,0,0,0.25);
+                backdrop-filter: blur(6px);
+                z-index: 0;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="login-container">
+            
+            <div class="login-card">
+                <img src="" class="logo" alt ="Barangay Logo">
+
+                <h1>Barangay Balintawak</h1>
+                <h2>Lipa City, Batangas</h2>
+
+                <h1 class="login-title">LOGIN</h1>
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" placeholder="Username">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Password">
+                </div>
+
+                <button class="button" onclick="login()">CONFIRM</button>
+
+                <div class="error" id="error-msg">Username or password is incorrect! Please try again.</p>
+                </div>
+
+                <div>
+                    <img src="nu-lipa.png" alt="NU Lipa" class="logo">
+                    <div class="footer-text">Powered by COM251 NSTP GROUP 1</div>
+                </div>
+            </div>
+        
+
+            <div class="info-panel">
+                <h1>Welcome to Barangay Balintawak Document Generator</h1>
+                <h2>Sangguiniang Barangay</h2>
+                
+                <img src="" alt="PICTURE HERE">
+                
+                <p><strong>Hon. Joselito S. Pagcaliwangan</strong> </p>
+                <p>Punong Barangay</p>
+
+                <br>
+
+                <p><strong>Brgy.Kagawad</strong></p>
+                <p>N/A</p>
+                <p>N/A</p>
+                <p>N/A</p>
+                <p>N/A</p>   
+
+            </div>
+        </div>
+    </body>
+</html>
+<script src="js/index.js"></script>
