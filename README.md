@@ -13,8 +13,8 @@
 
 After installation, open a new terminal and verify:
 
-bash
-```
+
+```bash
 git --version
 ```
 
@@ -24,16 +24,16 @@ If you see a version number, you’re good.
 
 This ties your commits to your GitHub account.
 
-bash
-```
+
+```bash
 git config --global user.name "Your Name"
 git config --global user.email "your_email@example.com"
 ```
 
 Check that it worked:
 
-bash
-```
+
+```bash
 git config --global --list
 ```
 
@@ -43,29 +43,29 @@ Choose or create a folder where you want the project.
 
 Example:
 
-bash
-```
+
+```bash
 cd Documents
 ```
 
 Clone the repo:
 
-bash
-```
+
+```bash
 git clone https://github.com/itzjmbruhhh/Document_Generator_NSTP.git
 ```
 
 Move into the project:
 
-bash
-```
+
+```bash
 cd Document_Generator_NSTP
 ```
 
 Check status:
 
-bash
-```
+
+```bash
 git status
 ```
 
@@ -77,29 +77,29 @@ At this point, you’re on the default branch (usually main).
 
 Never work directly on main.
 
-bash
-```
+
+```bash
 git branch {NAME-OF-YOUR-BRANCH}
 ```
 
 Switch to it:
 
-bash
-```
+
+```bash
 git checkout {NAME-OF-YOUR-BRANCH}
 ```
 
 Shortcut (create + switch):
 
-bash
-```
+
+```bash
 git checkout -b {NAME-OF-YOUR-BRANCH}
 ```
 
 Confirm:
 
-bash
-```
+
+```bash
 git branch
 ```
 
@@ -111,22 +111,22 @@ After editing files:
 
 Check what changed:
 
-bash
-```
+
+```bash
 git status
 ```
 
 Stage changes:
 
-bash
-```
+
+```bash
 git add .
 ```
 
 Commit:
 
-bash
-```
+
+```bash
 git commit -m "Add initial feature implementation"
 ```
 
@@ -134,15 +134,15 @@ git commit -m "Add initial feature implementation"
 
 The first push links your local branch to GitHub.
 
-bash
-```
+
+```bash
 git push -u origin feature-my-work
 ```
 
 After this, future pushes are just:
 
-bash
-```
+
+```bash
 git push
 ```
 
@@ -152,22 +152,22 @@ Before continuing work, always sync.
 
 Switch to main:
 
-bash
-```
+
+```bash
 git checkout main
 ```
 
 Pull:
 
-bash
-```
+
+```bash
 git pull origin main
 ```
 
 Update your branch with latest main:
 
-bash
-```
+
+```bash
 git checkout feature-my-work
 git merge main
 ```
@@ -180,8 +180,8 @@ git merge main
 
 Make sure everything is committed and pushed:
 
-bash
-```
+
+```bash
 git status
 git push
 ```
@@ -223,8 +223,8 @@ Click Create pull request.
 
 Once approved and merged:
 
-bash
-```
+
+```bash
 git checkout main
 git pull origin main
 ```
