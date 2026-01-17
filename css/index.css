@@ -1,0 +1,136 @@
+.login-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 40px;
+  color: #fff;
+}
+
+.login-card {
+  background: #fff;
+  color: #000;
+  width: 380px;
+  border-radius: 28px;
+  padding: 30px 28px 40px;
+  text-align: center;
+}
+
+.login-card img.logo {
+  width: 70px;
+  margin-bottom: 10px;
+}
+
+.login-card h1 {
+  font-size: 22px;
+  margin: 10px 0 0;
+  font-weight: 700;
+}
+
+.login-card h2 {
+  font-size: 18px;
+  margin-bottom: 0px 0px 20px;
+  font-weight: 500;
+}
+
+.login-card .login-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: #32418c;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid #969696;
+  padding: 0 12px;
+  margin-top: 6px;
+}
+
+.button {
+  width: 160px;
+  height: 42px;
+  background: #f5c400;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+  display: none;
+}
+
+.footer-text {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 5px;
+}
+.info-panel {
+  max-width: 420px;
+  text-align: center;
+}
+
+.info-panel h1 {
+  font-size: 30px;
+  color: #ffffff;
+  margin-bottom: 0;
+}
+
+.info-panel h2 {
+  font-size: 20px;
+  color: #ffffff;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.info-panel img {
+  width: 150px;
+  margin: 20px 0;
+  border-radius: 6px;
+}
+
+.info-panel p {
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+@media (max-width: 900px) {
+  .login-container {
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+  }
+}
+
+.video-container {
+  display: none;
+  width: 380px;
+  background: #fff;
+  border-radius: 28px;
+  padding: 20px;
+}
+
+.video-container video {
+  width: 100%;
+  border-radius: 16px;
+}
