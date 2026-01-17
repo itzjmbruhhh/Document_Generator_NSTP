@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat;
+    
+}
+
+body {
+    height: 260.74%;
+    width: 100%;
+    background-image: url(/MEDIA/aboutbg.jpg);
+    background-size: cover;
+}
+
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    padding-top: 5%;
+}
+
+.container-left {
+    padding-left: 5%;
+    padding-right: 3%;
+    width: 50%;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.container-left h1 {
+    color: #35408e;
+    text-align: center;
+    margin-bottom: 2%;
+    size: 1em;
+}
+
+.container-left p {
+    text-indent: 10%;
+    font-weight: 500;
+    font-size: 0.7em;
+}
+
+.container-left h2 {
+    font-weight: 600;
+}
+
+.container-left h3 {
+    font-weight: 600;
+}
+
+.container-left h4 {
+    font-weight: 570;
+}
+
+.container-left h5 {
+    font-weight: 550;
+}
+
+
+
+.container-right {
+    width: 50%;
+}
