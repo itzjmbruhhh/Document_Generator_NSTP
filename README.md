@@ -1,5 +1,3 @@
-# Hi sana di kayo malito
-
 # PART 1: Git setup and cloning a repository
 
 ## 1. Install Git on Windows
