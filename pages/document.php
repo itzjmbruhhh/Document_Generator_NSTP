@@ -74,6 +74,7 @@
 
     <script src="../js/navbar.js"></script>
     <script src="../js/document.js"></script>
+    <script src="../js/topbar.js"></script>
 </body>
 
 </html>
