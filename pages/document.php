@@ -23,9 +23,17 @@
         ?>
 
         <!-- Main content -->
-        <div id="mainContent" class="flex-1 border border-red-400 p-5 transition-all duration-300">
-            <h1 class="text-2xl font-bold">Main Content Here</h1>
-            <p>This div automatically fills the remaining space next to the sidebar.</p>
+        <div id="mainContent" class="flex-1 transition-all duration-300 bg-[--color-gray]">
+
+            <div class="w-[100%]">
+
+                <!-- Top navbar-ish -->
+                <div class="h-20 bg-white shadow-md">
+
+                </div>
+
+            </div>
+
         </div>
     </section>
 

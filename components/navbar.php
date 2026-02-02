@@ -21,7 +21,8 @@ function nav_is_active($itemPath, $currentPath)
 
 <!-- Sidebar -->
 <aside id="sidebar"
-    class="fixed left-0 top-0 h-screen w-64 bg-[--color-primary] p-5 flex flex-col transition-all duration-300 overflow-hidden">
+    class="fixed left-0 top-0 h-screen w-64 bg-[--color-primary] p-5 flex flex-col transition-all duration-300 overflow-hidden shadow-[2px_0_8px_rgba(0,0,0,0.5)]">
+
 
     <!-- Navbar Header -->
     <div class="flex flex-row items-center gap-2">

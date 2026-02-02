@@ -15,11 +15,24 @@
     <title>Residents - Brgy. Balintawak Document Generator</title>
 </head>
 <body>
-    <section>
+    <section class="flex min-h-screen">
         <?php
         include('../components/navbar.php');
         ?>
-        Hello
+
+        <!-- Main content -->
+        <div id="mainContent" class="flex-1 transition-all duration-300 bg-[--color-gray]">
+
+            <div class="w-[100%]">
+
+                <!-- Top navbar-ish -->
+                <div class="h-20 bg-white shadow-md">
+
+                </div>
+
+            </div>
+
+        </div>
     </section>
 
     <script src="../js/navbar.js"></script>

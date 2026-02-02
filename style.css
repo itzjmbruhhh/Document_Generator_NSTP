@@ -16,6 +16,7 @@
   font-style: normal;
 }
 
+
 /* Main content should sit to the right of the fixed sidebar */
 #mainContent {
   margin-left: var(--sidebar-width);
