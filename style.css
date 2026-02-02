@@ -16,7 +16,6 @@
   font-style: normal;
 }
 
-
 /* Main content should sit to the right of the fixed sidebar */
 #mainContent {
   margin-left: var(--sidebar-width);
@@ -25,4 +24,37 @@
   transition:
     margin-left 0.3s ease,
     width 0.3s ease;
+}
+
+/* Progress bar / steps styles */
+.step-dot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: #fff;
+  border: 2px solid #ddd;
+  margin: 0 auto;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+.step-dot.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: scale(1.05);
+}
+.step-dot.completed {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.connector-complete {
+  background-color: var(--color-primary) !important;
+}
+
+.step-item {
+  width: 6rem;
+}
+
+.step-content {
 }
