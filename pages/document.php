@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="border border-white h-full w-full bg-white p-5 rounded-[10px]">
+                    <div class="border border-white h-full w-[95%] bg-white p-5 rounded-[10px]">
                         <div id="stepsContainer">
                             <?php include(__DIR__ . '/../components/steps/select_document.php'); ?>
                             <?php include(__DIR__ . '/../components/steps/fill_details.php'); ?>
