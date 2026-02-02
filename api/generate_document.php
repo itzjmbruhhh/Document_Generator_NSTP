@@ -52,6 +52,7 @@ $titleMap = [
 ];
 $title = $titleMap[$doc] ?? ucfirst(str_replace('_', ' ', $doc));
 
+// generate PDF in-memory
 $pdf = new FPDF();
 $pdf->AddPage();
 $pdf->SetFont('Arial', '', 12);
@@ -83,7 +84,23 @@ foreach (explode("\n", $wrapped) as $line) {
     $y -= 14;
 }
 
-// Output PDF
-$pdf->Output('document_preview.pdf', 'I');
+// If download requested, send Content-Disposition with filename
+$download = isset($_GET['download']) && ($_GET['download'] === '1' || $_GET['download'] === 'true');
+$pdfData = $pdf->Output('', 'S');
+if ($download) {
+    // build filename: <DocumentType>_<Name>.pdf, sanitize
+    $safeDoc = preg_replace('/[^A-Za-z0-9_\-]/', '_', str_replace(' ', '_', $docLabel));
+    $safeName = preg_replace('/[^A-Za-z0-9_\-]/', '_', str_replace(' ', '_', $fullname));
+    $filename = $safeDoc . '_' . $safeName . '.pdf';
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    echo $pdfData;
+    exit;
+}
+
+// default: inline preview
+header('Content-Type: application/pdf');
+echo $pdfData;
+exit;
 
 ?>

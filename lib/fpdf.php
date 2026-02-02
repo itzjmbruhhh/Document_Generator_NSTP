@@ -84,11 +84,16 @@ class FPDF
     {
         $this->_putpages();
         $pdf = $this->buffer;
-        if ($dest == 'I') {
+        if ($dest === 'I') {
             header('Content-Type: application/pdf');
             echo $pdf;
             return;
         }
+        if ($dest === 'S') {
+            // return PDF as string
+            return $pdf;
+        }
+        // default: save to file
         file_put_contents($name, $pdf);
     }
     protected function _putpages()

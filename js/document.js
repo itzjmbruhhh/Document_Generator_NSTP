@@ -168,14 +168,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // clicking a doc-option and pressing Next will proceed (already wired)
 
-  // clicking generate button (placeholder)
+  // clicking generate button: save the request (keep preview unchanged)
   const genBtn = document.getElementById("generateDoc");
-  if (genBtn)
+  if (genBtn) {
     genBtn.addEventListener("click", () => {
-      alert(
-        "Generate called for: " + (window.selectedDocType || "[not selected]"),
-      );
+      const docType = window.selectedDocType || "";
+      const residentId =
+        (document.querySelector("#selected_resident_id") || {}).value || "";
+      const detailsForm = document.getElementById("detailsForm");
+      const notes = detailsForm
+        ? (detailsForm.querySelector('textarea[name="notes"]') || {}).value ||
+          ""
+        : "";
+      if (!docType || !residentId) {
+        alert("Select document type and resident before generating.");
+        return;
+      }
+
+      const fd = new FormData();
+      fd.append("doc", docType);
+      fd.append("resident_id", residentId);
+      fd.append("notes", notes);
+
+      genBtn.disabled = true;
+      genBtn.textContent = "Saving...";
+
+      fetch("../api/save_request.php", { method: "POST", body: fd })
+        .then((r) => r.text())
+        .then((text) => {
+          genBtn.disabled = false;
+          genBtn.textContent = "Generate";
+          let j;
+          try {
+            j = JSON.parse(text);
+          } catch (e) {
+            throw new Error("Invalid JSON response: " + text);
+          }
+          if (j && j.ok) {
+            alert("Document saved (request id: " + j.request_id + ")");
+            // trigger download of the generated PDF (uses generate endpoint with download flag)
+            const downloadUrl =
+              "../api/generate_document.php?doc=" +
+              encodeURIComponent(docType) +
+              "&resident_id=" +
+              encodeURIComponent(residentId) +
+              "&notes=" +
+              encodeURIComponent(notes) +
+              "&download=1";
+            // open in new tab to trigger download dialog
+            window.open(downloadUrl, "_blank");
+            // redirect user to dashboard (index) after dismissing alert
+            window.location.href = '../index.php';
+          } else {
+            alert("Save failed: " + (j && j.error ? j.error : "unknown"));
+          }
+        })
+        .catch((err) => {
+          genBtn.disabled = false;
+          genBtn.textContent = "Generate";
+          alert("Save failed: " + err.message);
+        });
     });
+  }
 
   // step dots are intentionally not clickable (visual only)
 
