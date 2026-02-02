@@ -70,13 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     });
 
-  // make step dots clickable to jump
-  document.querySelectorAll(".step-dot").forEach((dot) => {
-    dot.addEventListener("click", () => {
-      const s = parseInt(dot.dataset.step, 10);
-      if (!isNaN(s)) showStep(s);
-    });
-  });
+  // step dots are intentionally not clickable (visual only)
 
   // init
   showStep(1);

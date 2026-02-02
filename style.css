@@ -56,5 +56,52 @@
   width: 6rem;
 }
 
+/* Step circles overlap the progress line and show number or check */
+.step-dot {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background: #EAEAEA; /* non-done background */
+  border: 2px solid var(--color-primary);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--color-primary);
+  position: relative;
+  z-index: 20; /* sit above connectors */
+  transform: translateY(-0.5rem); /* overlap the line */
+  pointer-events: none; /* not clickable */
+}
+
+.step-dot::after {
+  content: attr(data-step);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* Completed step: show checkmark and primary background */
+.step-dot.completed {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+.step-dot.completed::after {
+  content: '\2713'; /* checkmark */
+  font-size: 1rem;
+}
+
+/* Connectors sit behind the dots */
+[data-connector] {
+  z-index: 10;
+  transition: background-color 0.2s ease;
+}
+.connector-complete {
+  background-color: var(--color-primary) !important;
+}
+
+.step-content {
+
 .step-content {
 }
