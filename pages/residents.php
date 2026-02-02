@@ -185,7 +185,7 @@ function calc_age($dob)
                                     <th class="p-2">Purok</th>
                                     <th class="p-2">Birthdate</th>
                                     <th class="p-2">Age</th>
-                                    <th class="p-2">Actions</th>
+                                    <th class="p-2 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,8 +200,8 @@ function calc_age($dob)
                                         <td class="p-2 align-top"><?php echo htmlspecialchars($r['resident_birthdate']); ?>
                                         </td>
                                         <td class="p-2 align-top"><?php echo htmlspecialchars($age); ?></td>
-                                        <td class="p-2 align-top">
-                                            <div class="flex gap-2">
+                                        <td class="p-2 align-top text-right">
+                                            <div class="flex gap-2 justify-end">
                                                 <button type="button"
                                                     class="px-3 py-1 bg-yellow-500 text-white rounded edit-btn"
                                                     data-id="<?php echo (int) $r['resident_id']; ?>"
@@ -210,6 +210,10 @@ function calc_age($dob)
                                                     data-last="<?php echo htmlspecialchars($r['resident_lastname']); ?>"
                                                     data-purok="<?php echo htmlspecialchars($r['resident_purok']); ?>"
                                                     data-birth="<?php echo htmlspecialchars($r['resident_birthdate']); ?>">Edit</button>
+
+                                                <button type="button"
+                                                    class="px-3 py-1 bg-blue-600 text-white rounded requests-btn"
+                                                    data-id="<?php echo (int) $r['resident_id']; ?>">Requests</button>
 
                                                 <form method="post" onsubmit="return confirm('Delete this resident?');">
                                                     <input type="hidden" name="action" value="delete">
@@ -295,6 +299,35 @@ function calc_age($dob)
                             </form>
                         </div>
                     </div>
+
+                    <!-- Requests modal -->
+                    <div id="requestsModal"
+                        class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-start justify-center pt-20 overflow-auto">
+                        <div class="bg-white p-4 rounded w-full max-w-3xl">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 id="requestsModalTitle" class="text-lg font-semibold">Requests</h3>
+                                <button id="requestsClose" class="px-3 py-1 border rounded">Close</button>
+                            </div>
+                            <div id="requestsListArea" class="mb-4">
+                                <table class="min-w-full">
+                                    <thead>
+                                        <tr>
+                                            <th class="p-2">ID</th>
+                                            <th class="p-2">Document</th>
+                                            <th class="p-2">Purpose</th>
+                                            <th class="p-2">Date</th>
+                                            <th class="p-2">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="requestsTbody"></tbody>
+                                </table>
+                            </div>
+                            <div id="requestPreviewArea" class="hidden">
+                                <h4 class="text-sm font-medium mb-2">Preview</h4>
+                                <iframe id="requestPreviewIframe" style="width:100%;height:600px;border:0;"></iframe>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -345,6 +378,83 @@ function calc_age($dob)
             // close when clicking outside modal content
             window.addEventListener('click', (e) => {
                 if (e.target === editModal) editModal.classList.add('hidden');
+            });
+
+            // Requests modal logic
+            const requestsModal = document.getElementById('requestsModal');
+            const requestsTbody = document.getElementById('requestsTbody');
+            const requestsClose = document.getElementById('requestsClose');
+            const requestPreviewArea = document.getElementById('requestPreviewArea');
+            const requestPreviewIframe = document.getElementById('requestPreviewIframe');
+
+            function openRequestsModal(residentId, residentName) {
+                requestsTbody.innerHTML = '<tr><td colspan="5" class="p-4">Loading...</td></tr>';
+                if (requestsModal) requestsModal.classList.remove('hidden');
+                fetch('../api/get_requests.php?resident_id=' + encodeURIComponent(residentId))
+                    .then(r => r.json())
+                    .then(list => {
+                        requestsTbody.innerHTML = '';
+                        if (!Array.isArray(list) || list.length === 0) {
+                            requestsTbody.innerHTML = '<tr><td colspan="5" class="p-4">No requests found.</td></tr>';
+                            return;
+                        }
+                        list.forEach(req => {
+                            const tr = document.createElement('tr');
+                            tr.className = 'border-t';
+                            tr.innerHTML = '<td class="p-2 align-top">' + (req.request_id || '') + '</td>' +
+                                '<td class="p-2 align-top">' + (req.document_type || '') + '</td>' +
+                                '<td class="p-2 align-top">' + (req.purpose || '') + '</td>' +
+                                '<td class="p-2 align-top">' + (req.request_date_time || '') + '</td>' +
+                                '<td class="p-2 align-top"><div class="flex gap-2">' +
+                                '<button type="button" class="px-3 py-1 bg-indigo-600 text-white rounded view-request" data-id="' + req.request_id + '">View</button>' +
+                                '<button type="button" class="px-3 py-1 bg-gray-600 text-white rounded download-request" data-id="' + req.request_id + '">Download</button>' +
+                                '</div></td>';
+                            requestsTbody.appendChild(tr);
+                        });
+
+                        // attach handlers
+                        requestsTbody.querySelectorAll('.view-request').forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                const id = btn.dataset.id;
+                                requestPreviewArea.classList.remove('hidden');
+                                requestPreviewIframe.src = '../api/request_pdf.php?request_id=' + encodeURIComponent(id);
+                            });
+                        });
+                        requestsTbody.querySelectorAll('.download-request').forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                const id = btn.dataset.id;
+                                window.open('../api/request_pdf.php?request_id=' + encodeURIComponent(id) + '&download=1', '_blank');
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        requestsTbody.innerHTML = '<tr><td colspan="5" class="p-4 text-red-600">Error loading requests</td></tr>';
+                    });
+            }
+
+            // wire requests buttons
+            document.querySelectorAll('.requests-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    const row = btn.closest('tr');
+                    const name = row ? (row.querySelector('td:nth-child(2)') || {}).textContent || '' : '';
+                    openRequestsModal(id, name);
+                });
+            });
+
+            if (requestsClose) requestsClose.addEventListener('click', () => {
+                if (requestsModal) requestsModal.classList.add('hidden');
+                if (requestPreviewIframe) requestPreviewIframe.src = '';
+                if (requestPreviewArea) requestPreviewArea.classList.add('hidden');
+            });
+
+            // close when clicking outside modal content
+            window.addEventListener('click', (e) => {
+                if (e.target === requestsModal) {
+                    requestsModal.classList.add('hidden');
+                    if (requestPreviewIframe) requestPreviewIframe.src = '';
+                    if (requestPreviewArea) requestPreviewArea.classList.add('hidden');
+                }
             });
         });
     </script>

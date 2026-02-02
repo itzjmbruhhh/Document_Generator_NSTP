@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // open in new tab to trigger download dialog
             window.open(downloadUrl, "_blank");
             // redirect user to dashboard (index) after dismissing alert
-            window.location.href = '../index.php';
+            window.location.href = "../index.php";
           } else {
             alert("Save failed: " + (j && j.error ? j.error : "unknown"));
           }
