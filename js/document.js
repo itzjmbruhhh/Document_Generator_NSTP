@@ -24,24 +24,62 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   };
 
-  // navigation buttons
-  const toStep2Btns = [
-    document.getElementById("to-step-2-from-1"),
-    document.getElementById("to-step-3"),
-  ];
+  // navigation buttons + validation
   const backTo1 = document.getElementById("back-to-step-1");
   const backTo2 = document.getElementById("back-to-step-2");
 
-  if (document.getElementById("to-step-2-from-1")) {
-    document
-      .getElementById("to-step-2-from-1")
-      .addEventListener("click", () => showStep(2));
+  // Next from Step 1 -> Step 2: require a document selection
+  const nextFrom1Btn = document.getElementById("to-step-2-from-1");
+  if (nextFrom1Btn) {
+    nextFrom1Btn.addEventListener("click", () => {
+      if (!window.selectedDocType) {
+        // highlight options briefly
+        document.querySelectorAll(".doc-option").forEach((b) => b.classList.add("ring-2", "ring-red-500"));
+        const first = document.querySelector(".doc-option");
+        if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(() => document.querySelectorAll(".doc-option").forEach((b) => b.classList.remove("ring-2", "ring-red-500")), 1400);
+        return;
+      }
+      // clear previous field errors if any
+      const form = document.getElementById("detailsForm");
+      if (form) {
+        ["full_name", "address"].forEach((n) => {
+          if (form.elements[n]) form.elements[n].classList.remove("border-red-500");
+        });
+      }
+      showStep(2);
+    });
   }
-  if (document.getElementById("to-step-3")) {
-    document
-      .getElementById("to-step-3")
-      .addEventListener("click", () => showStep(3));
+
+  // Next from Step 2 -> Step 3: require form fields
+  const nextTo3 = document.getElementById("to-step-3");
+  if (nextTo3) {
+    nextTo3.addEventListener("click", () => {
+      const form = document.getElementById("detailsForm");
+      if (form) {
+        const name = (form.elements["full_name"] || {}).value || "";
+        const addr = (form.elements["address"] || {}).value || "";
+        let ok = true;
+        if (!name.trim()) {
+          if (form.elements["full_name"]) form.elements["full_name"].classList.add("border-red-500");
+          ok = false;
+        } else if (form.elements["full_name"]) form.elements["full_name"].classList.remove("border-red-500");
+
+        if (!addr.trim()) {
+          if (form.elements["address"]) form.elements["address"].classList.add("border-red-500");
+          ok = false;
+        } else if (form.elements["address"]) form.elements["address"].classList.remove("border-red-500");
+
+        if (!ok) {
+          const firstEmpty = !name.trim() ? form.elements["full_name"] : form.elements["address"];
+          if (firstEmpty) firstEmpty.focus();
+          return;
+        }
+      }
+      showStep(3);
+    });
   }
+
   if (backTo1) backTo1.addEventListener("click", () => showStep(1));
   if (backTo2) backTo2.addEventListener("click", () => showStep(2));
 

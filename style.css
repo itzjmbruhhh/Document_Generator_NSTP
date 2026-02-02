@@ -101,7 +101,11 @@
   background-color: var(--color-primary) !important;
 }
 
-.step-content {
+.step-content { }
 
-.step-content {
+/* Active (current) step: number should be white on primary background */
+.step-dot.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff; /* makes the number white */
 }
