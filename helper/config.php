@@ -16,9 +16,11 @@ if (!defined('BASE_URL')) {
 }
 
 if (!function_exists('base_url')) {
-    function base_url($path = '') {
+    function base_url($path = '')
+    {
         $base = rtrim(BASE_URL, '/');
-        if ($path === '' || $path === '/') return $base === '' ? '/' : $base;
+        if ($path === '' || $path === '/')
+            return $base === '' ? '/' : $base;
         return $base . '/' . ltrim($path, '/');
     }
 }
