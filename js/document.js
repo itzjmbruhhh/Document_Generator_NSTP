@@ -40,6 +40,43 @@ document.addEventListener("DOMContentLoaded", function () {
         labelEl.textContent = "Select type";
       }
     }
+
+    // when showing preview step, populate iframe src
+    if (n === 3) {
+      try {
+        const previewIframe = document.getElementById("previewIframe");
+        const previewPlaceholder =
+          document.getElementById("previewPlaceholder");
+        const docType = window.selectedDocType || "";
+        const residentId =
+          (document.querySelector("#selected_resident_id") || {}).value || "";
+        if (!docType || !residentId) {
+          if (previewIframe) previewIframe.style.display = "none";
+          if (previewPlaceholder)
+            previewPlaceholder.textContent =
+              "Select a document type and resident to see the PDF preview.";
+        } else {
+          // include purpose/notes from details form when generating preview
+          const detailsForm = document.getElementById("detailsForm");
+          const notes = detailsForm
+            ? (detailsForm.querySelector('textarea[name="notes"]') || {})
+                .value || ""
+            : "";
+          const src =
+            "../api/generate_document.php?doc=" +
+            encodeURIComponent(docType) +
+            "&resident_id=" +
+            encodeURIComponent(residentId) +
+            "&notes=" +
+            encodeURIComponent(notes);
+          if (previewIframe) {
+            previewIframe.src = src;
+            previewIframe.style.display = "block";
+          }
+          if (previewPlaceholder) previewPlaceholder.style.display = "none";
+        }
+      } catch (e) {}
+    }
   };
 
   // navigation buttons + validation

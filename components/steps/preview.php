@@ -5,7 +5,8 @@
     <h3 class="text-lg font-semibold mb-4">3 — Preview</h3>
 
     <div id="previewArea" class="p-4 border rounded bg-white">
-        <p class="text-sm text-gray-600">Preview of the generated document will appear here.</p>
+        <p id="previewPlaceholder" class="text-sm text-gray-600">Preview of the generated document will appear here.</p>
+        <iframe id="previewIframe" style="width:100%;height:600px;border:0;display:none;"></iframe>
     </div>
 
     <div class="mt-6 flex justify-between">
