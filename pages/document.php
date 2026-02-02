@@ -17,6 +17,7 @@
 </head>
 
 <body>
+    <?php require_once __DIR__ . '/../helper/auth.php'; ?>
     <section class="flex min-h-screen">
         <?php
         include('../components/navbar.php');

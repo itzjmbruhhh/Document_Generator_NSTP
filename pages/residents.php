@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../helper/conn.php';
+require_once __DIR__ . '/../helper/auth.php';
 
 // Handle POST actions: delete, update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

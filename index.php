@@ -1,6 +1,6 @@
 <?php
-
-include('helper/conn.php');
+require_once __DIR__ . '/helper/conn.php';
+require_once __DIR__ . '/helper/auth.php';
 
 ?>
 
