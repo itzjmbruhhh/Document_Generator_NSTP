@@ -36,10 +36,63 @@ require_once __DIR__ . '/helper/auth.php';
 
                 <?php
                 // include reusable topbar
-                $topTitle = 'Dashboard';
-                $topSubtitle = 'Overview';
+                $topTitle = 'Welcome';
+                $topSubtitle = 'Brgy. Balintawak Document Generator';
                 include_once __DIR__ . '/components/topbar.php';
                 ?>
+
+                <!-- Landing hero -->
+                <main class="p-8">
+                    <section class="bg-white rounded-lg shadow p-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h1 class="text-4xl md:text-5xl font-extrabold text-[--color-primary] mb-4">Brgy.
+                                    Balintawak
+                                    Document Generator</h1>
+                                <p class="text-lg text-gray-700 mb-6">A simple, fast tool built by students to make
+                                    community services easier — creating documents, keeping records, and helping our
+                                    barangay move toward a better future.</p>
+                                <blockquote class="pl-4 border-l-4 border-[--color-primary] text-gray-600 italic mb-6">
+                                    "Made by
+                                    students, for our community — empowering a better future, one document at a time."
+                                </blockquote>
+
+                                <div class="flex flex-col sm:flex-row gap-3">
+                                    <a href="<?php echo htmlspecialchars(base_url('pages/document.php')); ?>"
+                                        class="inline-block px-6 py-3 bg-[--color-primary] text-white rounded shadow">Generate
+                                        Document</a>
+                                    <a href="<?php echo htmlspecialchars(base_url('pages/residents.php')); ?>"
+                                        class="inline-block px-6 py-3 border border-[--color-primary] text-[--color-primary] rounded">Manage
+                                        Residents</a>
+                                </div>
+                            </div>
+
+                            <div>
+                                <img class="mx-auto h-[350px]" src="<?php echo htmlspecialchars(base_url('src/images/hero.png')); ?>"
+                                    alt="community" class="w-full rounded">
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-white p-6 rounded shadow">
+                            <h3 class="font-semibold text-lg">Fast Generation</h3>
+                            <p class="text-sm text-gray-600 mt-2">Create common barangay documents quickly with
+                                prebuilt templates.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded shadow">
+                            <h3 class="font-semibold text-lg">Record Requests</h3>
+                            <p class="text-sm text-gray-600 mt-2">Saved requests allow tracking and re-downloading PDFs
+                                as
+                                needed.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded shadow">
+                            <h3 class="font-semibold text-lg">Resident Registry</h3>
+                            <p class="text-sm text-gray-600 mt-2">Manage residents, search quickly, and reuse data when
+                                generating documents.</p>
+                        </div>
+                    </section>
+                </main>
 
             </div>
 
