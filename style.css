@@ -61,7 +61,7 @@
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 9999px;
-  background: #EAEAEA; /* non-done background */
+  background: #eaeaea; /* non-done background */
   border: 2px solid var(--color-primary);
   margin: 0 auto;
   display: flex;
@@ -88,7 +88,7 @@
   color: #fff;
 }
 .step-dot.completed::after {
-  content: '\2713'; /* checkmark */
+  content: "\2713"; /* checkmark */
   font-size: 1rem;
 }
 
@@ -101,7 +101,8 @@
   background-color: var(--color-primary) !important;
 }
 
-.step-content { }
+.step-content {
+}
 
 /* Active (current) step: number should be white on primary background */
 .step-dot.active {

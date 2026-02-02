@@ -22,6 +22,24 @@ document.addEventListener("DOMContentLoaded", function () {
       const parts = conn.dataset.connector.split("-").map(Number);
       conn.classList.toggle("connector-complete", current > parts[0]);
     });
+
+    // update breadcrumb label for selected document
+    const labelEl = document.getElementById("selectedDocLabel");
+    if (labelEl) {
+      if (window.selectedDocType) {
+        const selectedBtn = document.querySelector(
+          `.doc-option[data-doc="${window.selectedDocType}"]`,
+        );
+        let labelText = window.selectedDocType;
+        if (selectedBtn) {
+          const heading = selectedBtn.querySelector("h4, h3");
+          if (heading) labelText = heading.textContent.trim();
+        }
+        labelEl.textContent = labelText;
+      } else {
+        labelEl.textContent = "Select type";
+      }
+    }
   };
 
   // navigation buttons + validation
@@ -34,17 +52,27 @@ document.addEventListener("DOMContentLoaded", function () {
     nextFrom1Btn.addEventListener("click", () => {
       if (!window.selectedDocType) {
         // highlight options briefly
-        document.querySelectorAll(".doc-option").forEach((b) => b.classList.add("ring-2", "ring-red-500"));
+        document
+          .querySelectorAll(".doc-option")
+          .forEach((b) => b.classList.add("ring-2", "ring-red-500"));
         const first = document.querySelector(".doc-option");
-        if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
-        setTimeout(() => document.querySelectorAll(".doc-option").forEach((b) => b.classList.remove("ring-2", "ring-red-500")), 1400);
+        if (first)
+          first.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(
+          () =>
+            document
+              .querySelectorAll(".doc-option")
+              .forEach((b) => b.classList.remove("ring-2", "ring-red-500")),
+          1400,
+        );
         return;
       }
       // clear previous field errors if any
       const form = document.getElementById("detailsForm");
       if (form) {
         ["full_name", "address"].forEach((n) => {
-          if (form.elements[n]) form.elements[n].classList.remove("border-red-500");
+          if (form.elements[n])
+            form.elements[n].classList.remove("border-red-500");
         });
       }
       showStep(2);
@@ -61,17 +89,23 @@ document.addEventListener("DOMContentLoaded", function () {
         const addr = (form.elements["address"] || {}).value || "";
         let ok = true;
         if (!name.trim()) {
-          if (form.elements["full_name"]) form.elements["full_name"].classList.add("border-red-500");
+          if (form.elements["full_name"])
+            form.elements["full_name"].classList.add("border-red-500");
           ok = false;
-        } else if (form.elements["full_name"]) form.elements["full_name"].classList.remove("border-red-500");
+        } else if (form.elements["full_name"])
+          form.elements["full_name"].classList.remove("border-red-500");
 
         if (!addr.trim()) {
-          if (form.elements["address"]) form.elements["address"].classList.add("border-red-500");
+          if (form.elements["address"])
+            form.elements["address"].classList.add("border-red-500");
           ok = false;
-        } else if (form.elements["address"]) form.elements["address"].classList.remove("border-red-500");
+        } else if (form.elements["address"])
+          form.elements["address"].classList.remove("border-red-500");
 
         if (!ok) {
-          const firstEmpty = !name.trim() ? form.elements["full_name"] : form.elements["address"];
+          const firstEmpty = !name.trim()
+            ? form.elements["full_name"]
+            : form.elements["address"];
           if (firstEmpty) firstEmpty.focus();
           return;
         }
@@ -93,6 +127,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const docType = btn.dataset.doc;
       try {
         window.selectedDocType = docType;
+        const labelEl = document.getElementById("selectedDocLabel");
+        if (labelEl) {
+          const heading = btn.querySelector("h4, h3");
+          labelEl.textContent = heading ? heading.textContent.trim() : docType;
+        }
       } catch (e) {}
     });
   });
