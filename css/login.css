@@ -1,0 +1,37 @@
+/* custom small adjustments for the login layout */
+.login-left {
+  background-image: url("../src/images/bg_login.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  position: relative;
+}
+
+.left-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.seal {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+@media (max-width: 768px) {
+  .right-panel {
+    width: 100% !important;
+  }
+
+  .login-left {
+    min-height: 40vh;
+  }
+}
