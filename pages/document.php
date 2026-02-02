@@ -29,11 +29,66 @@
 
                 <!-- Top navbar-ish -->
                 <div class="h-20 bg-white shadow-md">
-
+                    This
                 </div>
 
-            </div>
+                <div class="container flex flex-col items-center justify-center m-auto py-10">
+                    <div class="m-auto p-10">Progress Bar</div>
+                    <div class="border border-white h-full w-full bg-white p-5 rounded-[10px]">
+                        <h2 class="text-2xl font-semibold mb-4"><i
+                                class="las la-file-alt text-[--color-primary] mr-2"></i>Document Options</h2>
 
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button data-doc="barangay_clearance"
+                                class="flex items-center justify-between p-5 bg-[--color-gray] hover:bg-gray-100 rounded shadow-sm transition">
+                                <div class="text-left">
+                                    <h3 class="text-xl font-semibold">Barangay Clearance</h3>
+                                    <p class="text-sm text-gray-600">Official clearance issued by the barangay.</p>
+                                </div>
+                                <i class="las la-id-card text-3xl text-[--color-primary]"></i>
+                            </button>
+
+                            <button data-doc="business_permit"
+                                class="flex items-center justify-between p-5 bg-[--color-gray] hover:bg-gray-100 rounded shadow-sm transition">
+                                <div class="text-left">
+                                    <h3 class="text-xl font-semibold">Business Permit</h3>
+                                    <p class="text-sm text-gray-600">Apply for or renew a business permit.</p>
+                                </div>
+                                <i class="las la-briefcase text-3xl text-[--color-primary]"></i>
+                            </button>
+
+                            <button data-doc="certificate_residency"
+                                class="flex items-center justify-between p-5 bg-[--color-gray] hover:bg-gray-100 rounded shadow-sm transition">
+                                <div class="text-left">
+                                    <h3 class="text-xl font-semibold">Certificate of Residency</h3>
+                                    <p class="text-sm text-gray-600">Proof of residence within the barangay.</p>
+                                </div>
+                                <i class="las la-home text-3xl text-[--color-primary]"></i>
+                            </button>
+
+                            <button data-doc="indigency"
+                                class="flex items-center justify-between p-5 bg-[--color-gray] hover:bg-gray-100 rounded shadow-sm transition">
+                                <div class="text-left">
+                                    <h3 class="text-xl font-semibold">Indigency</h3>
+                                    <p class="text-sm text-gray-600">Certification of indigent status.</p>
+                                </div>
+                                <i class="las la-hand-holding-usd text-3xl text-[--color-primary]"></i>
+                            </button>
+
+                            <button data-doc="no_low_income"
+                                class="flex items-center justify-between p-5 bg-[--color-gray] hover:bg-gray-100 rounded shadow-sm transition">
+                                <div class="text-left">
+                                    <h3 class="text-xl font-semibold">No Income / Low Income</h3>
+                                    <p class="text-sm text-gray-600">Declaration for no or low household income.</p>
+                                </div>
+                                <i class="las la-wallet text-3xl text-[--color-primary]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
         </div>
     </section>
 
