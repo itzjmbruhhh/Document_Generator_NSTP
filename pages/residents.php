@@ -30,6 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Create handler
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'create') {
+    $first = trim($_POST['resident_firstname'] ?? '');
+    $middle = trim($_POST['resident_middlename'] ?? '');
+    $last = trim($_POST['resident_lastname'] ?? '');
+    $purok = trim($_POST['resident_purok'] ?? '');
+    $birth = trim($_POST['resident_birthdate'] ?? '');
+
+    $stmt = $conn->prepare('INSERT INTO residents (resident_firstname, resident_middlename, resident_lastname, resident_purok, resident_birthdate) VALUES (?, ?, ?, ?, ?)');
+    $stmt->bind_param('sssss', $first, $middle, $last, $purok, $birth);
+    $stmt->execute();
+    $stmt->close();
+    header('Location: ' . $_SERVER['REQUEST_URI']);
+    exit;
+}
+
 // Pagination params
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $per_page = (int) ($_GET['per_page'] ?? 10);
@@ -39,9 +55,27 @@ if ($per_page > 100)
     $per_page = 100;
 $offset = ($page - 1) * $per_page;
 
+// Search query
+$q = trim($_GET['q'] ?? '');
+
 // Total count
-$total_count = 0;
-$countStmt = $conn->prepare('SELECT COUNT(*) FROM residents');
+$countSql = 'SELECT COUNT(*) FROM residents';
+$countParams = [];
+if ($q !== '') {
+    $countSql .= ' WHERE (resident_firstname LIKE ? OR resident_middlename LIKE ? OR resident_lastname LIKE ? OR resident_purok LIKE ?)';
+    $like = "%$q%";
+    $countParams = [$like, $like, $like, $like];
+}
+
+$countStmt = $conn->prepare($countSql);
+if ($q !== '') {
+    // bind by-value variables (bind_param requires references)
+    $l1 = $countParams[0];
+    $l2 = $countParams[1];
+    $l3 = $countParams[2];
+    $l4 = $countParams[3];
+    $countStmt->bind_param('ssss', $l1, $l2, $l3, $l4);
+}
 $countStmt->execute();
 $countStmt->bind_result($total_count);
 $countStmt->fetch();
@@ -50,8 +84,26 @@ $countStmt->close();
 $total_pages = $total_count > 0 ? (int) ceil($total_count / $per_page) : 1;
 
 // Fetch rows
-$stmt = $conn->prepare('SELECT resident_id, resident_firstname, resident_middlename, resident_lastname, resident_purok, resident_birthdate FROM residents ORDER BY resident_lastname ASC LIMIT ? OFFSET ?');
-$stmt->bind_param('ii', $per_page, $offset);
+$selectSql = 'SELECT resident_id, resident_firstname, resident_middlename, resident_lastname, resident_purok, resident_birthdate FROM residents';
+$selectParams = [];
+if ($q !== '') {
+    $selectSql .= ' WHERE (resident_firstname LIKE ? OR resident_middlename LIKE ? OR resident_lastname LIKE ? OR resident_purok LIKE ?)';
+    $like = "%$q%";
+    $selectParams = [$like, $like, $like, $like];
+}
+$selectSql .= ' ORDER BY resident_lastname ASC LIMIT ? OFFSET ?';
+
+$stmt = $conn->prepare($selectSql);
+if ($q !== '') {
+    // bind search params then limit/offset; ensure correct types: 4 strings + 2 ints => 'ssssii'
+    $s1 = $selectParams[0];
+    $s2 = $selectParams[1];
+    $s3 = $selectParams[2];
+    $s4 = $selectParams[3];
+    $stmt->bind_param('ssssii', $s1, $s2, $s3, $s4, $per_page, $offset);
+} else {
+    $stmt->bind_param('ii', $per_page, $offset);
+}
 $stmt->execute();
 $result = $stmt->get_result();
 $residents = $result->fetch_all(MYSQLI_ASSOC);
@@ -105,15 +157,23 @@ function calc_age($dob)
                 ?>
 
                 <div class="container mx-auto p-6">
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center justify-between mb-4 gap-4">
                         <form method="get" class="flex items-center gap-2">
                             <label class="text-sm">Per page:</label>
                             <input name="per_page" type="number" min="1" max="100"
                                 value="<?php echo htmlspecialchars($per_page); ?>" class="p-1 border rounded w-20">
+                            <label class="text-sm ml-2">Search:</label>
+                            <input name="q" type="search" placeholder="name or purok"
+                                value="<?php echo htmlspecialchars($q); ?>" class="p-1 border rounded">
                             <button class="px-3 py-1 bg-[--color-primary] text-white rounded">Apply</button>
                         </form>
 
-                        <div class="text-sm">Total residents: <strong><?php echo (int) $total_count; ?></strong></div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-sm">Total residents: <strong><?php echo (int) $total_count; ?></strong>
+                            </div>
+                            <button id="addResidentBtn" class="px-3 py-1 bg-green-600 text-white rounded">Add
+                                Resident</button>
+                        </div>
                     </div>
 
                     <div class="overflow-x-auto bg-white p-4 rounded shadow">
@@ -195,9 +255,9 @@ function calc_age($dob)
                     <div id="editModal"
                         class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                         <div class="bg-white p-6 rounded w-full max-w-md">
-                            <h3 class="text-lg font-semibold mb-4">Edit Resident</h3>
+                            <h3 id="editModalTitle" class="text-lg font-semibold mb-4">Edit Resident</h3>
                             <form id="editForm" method="post">
-                                <input type="hidden" name="action" value="update">
+                                <input type="hidden" name="action" id="editFormAction" value="update">
                                 <input type="hidden" name="resident_id" id="edit_resident_id">
 
                                 <label class="block mb-2">
@@ -248,8 +308,12 @@ function calc_age($dob)
             const editModal = document.getElementById('editModal');
             const editCancel = document.getElementById('editCancel');
 
+
+            // open edit modal and populate
             document.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
+                    document.getElementById('editFormAction').value = 'update';
+                    document.getElementById('editModalTitle').textContent = 'Edit Resident';
                     document.getElementById('edit_resident_id').value = btn.dataset.id || '';
                     document.getElementById('edit_first').value = btn.dataset.first || '';
                     document.getElementById('edit_middle').value = btn.dataset.middle || '';
@@ -261,6 +325,22 @@ function calc_age($dob)
             });
 
             if (editCancel) editCancel.addEventListener('click', () => editModal.classList.add('hidden'));
+
+            // open create modal
+            const addBtn = document.getElementById('addResidentBtn');
+            if (addBtn) {
+                addBtn.addEventListener('click', () => {
+                    document.getElementById('editFormAction').value = 'create';
+                    document.getElementById('editModalTitle').textContent = 'Add Resident';
+                    document.getElementById('edit_resident_id').value = '';
+                    document.getElementById('edit_first').value = '';
+                    document.getElementById('edit_middle').value = '';
+                    document.getElementById('edit_last').value = '';
+                    document.getElementById('edit_purok').value = '';
+                    document.getElementById('edit_birth').value = '';
+                    if (editModal) editModal.classList.remove('hidden');
+                });
+            }
 
             // close when clicking outside modal content
             window.addEventListener('click', (e) => {
