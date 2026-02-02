@@ -61,6 +61,13 @@ function applyCollapsed(collapsed, persist = false) {
       // ignore storage errors (e.g., privacy mode)
     }
   }
+  // update css variable used by main content
+  try {
+    const root = document.documentElement;
+    root.style.setProperty("--sidebar-width", isCollapsed ? "5rem" : "16rem");
+  } catch (e) {
+    // ignore
+  }
 }
 
 // Toggle handler

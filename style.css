@@ -6,10 +6,22 @@
   --color-primary: #376ad1;
   --color-secondary: #1800ad;
   --color-gray: #eaeaea;
+  /* Sidebar width (kept in sync with Tailwind w-64 / w-20) */
+  --sidebar-width: 16rem;
 }
 
 .anton-regular {
   font-family: "Anton", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+/* Main content should sit to the right of the fixed sidebar */
+#mainContent {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  box-sizing: border-box;
+  transition:
+    margin-left 0.3s ease,
+    width 0.3s ease;
 }

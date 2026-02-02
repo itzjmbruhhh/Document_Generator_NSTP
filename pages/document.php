@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,14 +15,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documents - Brgy. Balintawak Document Generator</title>
 </head>
+
 <body>
-    <section>
+    <section class="flex min-h-screen">
         <?php
         include('../components/navbar.php');
         ?>
-        Hello
+
+        <!-- Main content -->
+        <div id="mainContent" class="flex-1 border border-red-400 p-5 transition-all duration-300">
+            <h1 class="text-2xl font-bold">Main Content Here</h1>
+            <p>This div automatically fills the remaining space next to the sidebar.</p>
+        </div>
     </section>
 
     <script src="../js/navbar.js"></script>
 </body>
+
 </html>
