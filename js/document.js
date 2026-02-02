@@ -79,34 +79,27 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Next from Step 2 -> Step 3: require form fields
+  // Next from Step 2 -> Step 3: require resident selection
   const nextTo3 = document.getElementById("to-step-3");
   if (nextTo3) {
     nextTo3.addEventListener("click", () => {
       const form = document.getElementById("detailsForm");
       if (form) {
-        const name = (form.elements["full_name"] || {}).value || "";
-        const addr = (form.elements["address"] || {}).value || "";
+        const residentId =
+          (form.querySelector("#selected_resident_id") || {}).value || "";
         let ok = true;
-        if (!name.trim()) {
-          if (form.elements["full_name"])
-            form.elements["full_name"].classList.add("border-red-500");
+        if (!residentId.trim()) {
+          const searchInput = form.querySelector("#residentSearch");
+          if (searchInput) searchInput.classList.add("border-red-500");
           ok = false;
-        } else if (form.elements["full_name"])
-          form.elements["full_name"].classList.remove("border-red-500");
-
-        if (!addr.trim()) {
-          if (form.elements["address"])
-            form.elements["address"].classList.add("border-red-500");
-          ok = false;
-        } else if (form.elements["address"])
-          form.elements["address"].classList.remove("border-red-500");
+        } else {
+          const searchInput = form.querySelector("#residentSearch");
+          if (searchInput) searchInput.classList.remove("border-red-500");
+        }
 
         if (!ok) {
-          const firstEmpty = !name.trim()
-            ? form.elements["full_name"]
-            : form.elements["address"];
-          if (firstEmpty) firstEmpty.focus();
+          const searchInput = form.querySelector("#residentSearch");
+          if (searchInput) searchInput.focus();
           return;
         }
       }
