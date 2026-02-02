@@ -16,6 +16,32 @@
   font-style: normal;
 }
 
+/* Topbar styles */
+.topbar {
+  z-index: 30;
+}
+.topbar-avatar {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.topbar-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  min-width: 160px;
+}
+.topbar-dropdown a {
+  display: block;
+  color: #111827;
+  text-decoration: none;
+}
+
 /* Main content should sit to the right of the fixed sidebar */
 #mainContent {
   margin-left: var(--sidebar-width);

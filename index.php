@@ -28,16 +28,18 @@ include('helper/conn.php');
         <?php
         include('components/navbar.php');
         ?>
-        
+
         <!-- Main content -->
         <div id="mainContent" class="flex-1 transition-all duration-300 bg-[--color-gray]">
 
             <div class="w-[100%]">
 
-                <!-- Top navbar-ish -->
-                <div class="h-20 bg-white shadow-md">
-
-                </div>
+                <?php
+                // include reusable topbar
+                $topTitle = 'Dashboard';
+                $topSubtitle = 'Overview';
+                include_once __DIR__ . '/components/topbar.php';
+                ?>
 
             </div>
 
@@ -45,6 +47,7 @@ include('helper/conn.php');
     </section>
 
     <script src="js/navbar.js"></script>
+    <script src="js/topbar.js"></script>
 </body>
 
 </html>

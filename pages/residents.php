@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Residents - Brgy. Balintawak Document Generator</title>
 </head>
+
 <body>
     <section class="flex min-h-screen">
         <?php
@@ -25,10 +27,12 @@
 
             <div class="w-[100%]">
 
-                <!-- Top navbar-ish -->
-                <div class="h-20 bg-white shadow-md">
-
-                </div>
+                <?php
+                // include reusable topbar
+                $topTitle = 'Residents';
+                $topSubtitle = 'All residents';
+                include_once __DIR__ . '/../components/topbar.php';
+                ?>
 
             </div>
 
@@ -36,5 +40,7 @@
     </section>
 
     <script src="../js/navbar.js"></script>
+    <script src="../js/topbar.js"></script>
 </body>
+
 </html>

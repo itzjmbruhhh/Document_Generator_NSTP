@@ -27,28 +27,13 @@
 
             <div class="w-[100%]">
 
-                <!-- Top bar -->
-                <div class="h-20 bg-white shadow-md flex items-center justify-between px-6">
-                    <div class="flex flex-col">
-                        <div id="pageTitle" class="text-lg font-semibold flex items-center gap-2">
-                            <span class="text-gray-700">Document</span>
-                            <i class="las la-angle-right text-gray-400"></i>
-                            <span id="selectedDocLabel" class="text-[--color-primary] font-medium">Select type</span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <div class="text-right">
-                            <div class="text-sm text-gray-500">Hello,</div>
-                            <div class="font-medium">Admin</div>
-                        </div>
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                            class="rounded-full bg-gray-200">
-                            <circle cx="12" cy="8" r="3.2" fill="#d1d5db"></circle>
-                            <path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6" fill="#d1d5db"></path>
-                        </svg>
-                    </div>
-                </div>
+                <?php
+                // Reusable topbar include; pages can override $topTitle / $topSubtitle before including
+                $topTitle = 'Document';
+                // keep subtitle default unless a selection occurs
+                $topSubtitle = 'Select type';
+                include_once __DIR__ . '/../components/topbar.php';
+                ?>
                 <!-- Top bar end -->
 
                 <!-- Steps container -->
